@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Popular Movies</string>
 
+    <string name="action_popular">Most Popular</string>
+    <string name="action_rating">Highest Rated</string>
+    <string name="title_activity_detail">Detail</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
 </resources>

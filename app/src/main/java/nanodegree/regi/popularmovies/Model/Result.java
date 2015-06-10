@@ -1,25 +1,22 @@
-package nanodegree.regi.popularmovies;
+package nanodegree.regi.popularmovies.Model;
 
 import java.util.List;
 
 /**
  * Created by Regardt on 2015-06-06.
  */
-public class Results {
+public class Result {
 
     private int page;
+    private List<Movie> results;
+    private int total_pages;
+    private int total_results;
 
     public List<Movie> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
-        this.results = results;
-    }
-
-    private List<Movie> results;
-    private int total_pages;
-    private int total_results;
+    public void setResults(List<Movie> results) {this.results = results;}
 
     public int getTotal_results() {
         return total_results;
@@ -36,8 +33,6 @@ public class Results {
     public void setPage(int page) {
         this.page = page;
     }
-
-
 
     public int getTotal_pages() {
         return total_pages;

@@ -2,17 +2,23 @@ package nanodegree.regi.popularmovies;
 
 import java.util.List;
 
+import nanodegree.regi.popularmovies.Model.Result;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
-/**
- * Created by Regardt on 2015-06-06.
- */
+
 public interface MovieAPI {
 
-    @GET("/3/discover/movie?sort_by=popularity.desc&api_key=[YOUR KEY]")
-    public void getFeed(Callback<Results> response);
+     String API_KEY = "";
 
+
+
+    @GET("/3/discover/movie?api_key=" + API_KEY)
+    void getMovies(@Query("sort_by") String sort_by, Callback<Result> response);
+
+    @GET("/3/movie/{id}?api_key=" + API_KEY)
+    void getMovie(@Path("id")int id, Callback<Result> response);
 
 }
