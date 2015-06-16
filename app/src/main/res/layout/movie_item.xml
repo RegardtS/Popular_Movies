@@ -15,10 +15,17 @@
         android:scaleType="fitXY"
         />
 
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/view_background"
+        />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:background="#CC000000"
         android:text="Tester"
         android:id="@+id/tv_title_movie"
         android:layout_alignParentBottom="true"

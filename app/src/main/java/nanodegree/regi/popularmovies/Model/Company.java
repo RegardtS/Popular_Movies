@@ -7,6 +7,16 @@ public class Company {
     private String name;
     private int id;
 
+    public String getLogo_path() {
+        return logo_path;
+    }
+
+    public void setLogo_path(String logo_path) {
+        this.logo_path = logo_path;
+    }
+
+    private String logo_path;
+
     public String getName() {
         return name;
     }

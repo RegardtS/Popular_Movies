@@ -5,7 +5,14 @@
     <string name="action_rating">Highest Rated</string>
     <string name="title_activity_detail">Detail</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+
+    <string name="font_family_medium">sans-serif-medium</string>
+    <string name="font_family_regular">sans-serif</string>
+    <string name="font_family_light">sans-serif-light</string>
+
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pulvinar turpis nec diam lobortis, eu posuere est aliquet. Integer malesuada velit finibus, gravida nulla eu, ultrices felis. Etiam lacinia ac sem vel gravida. Aenean consequat pharetra erat, eget porttitor lorem tristique ac. Sed vitae ipsum eros. Praesent sem dolor, ornare non tortor ut, feugiat imperdiet magna. Integer ornare eget turpis a cursus. Pellentesque mattis lacinia neque, eu faucibus mi fermentum sed. Duis consequat elit ut justo convallis commodo eu id sapien. Praesent vehicula ornare magna, eu placerat metus fringilla tristique.</string>
+
 
 </resources>

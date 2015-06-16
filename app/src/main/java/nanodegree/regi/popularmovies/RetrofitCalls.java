@@ -13,7 +13,7 @@ public class RetrofitCalls {
 
     private RetrofitCalls() {
         restAdapter = new RestAdapter.Builder()
-//                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(ENDPOINT)
                 .build();
     }
