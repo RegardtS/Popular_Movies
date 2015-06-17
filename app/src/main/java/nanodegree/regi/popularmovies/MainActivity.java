@@ -36,10 +36,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-
-//http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=[YOUR KEY]
-//http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=[YOUR KEY]
-
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
