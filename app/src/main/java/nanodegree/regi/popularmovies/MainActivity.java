@@ -10,7 +10,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,12 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 import nanodegree.regi.popularmovies.Model.Movie;
 import nanodegree.regi.popularmovies.Model.Result;
@@ -46,16 +42,20 @@ public class MainActivity extends AppCompatActivity {
     MovieAPI api;
 
 
+    IImageLoader someRandomLoader;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        someRandomLoader = new IImageLoaderPicasso();
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        api = RetrofitCalls.getInstance().getRestAdapter().create(MovieAPI.class);
+        api = RestAdapter.getInstance().getRestAdapter().create(MovieAPI.class);
 
         mContext = getApplicationContext();
 
@@ -81,17 +81,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_popular) {
-            Toast.makeText(mContext,"Changing to popular",Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext,R.string.toast_popular,Toast.LENGTH_LONG).show();
             requestData(true);
         }else if(id == R.id.action_rating){
-            Toast.makeText(mContext,"Changing to rating",Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext,R.string.toast_rating,Toast.LENGTH_LONG).show();
             requestData(false);
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void requestData(Boolean isPopular){
-        String sorting = isPopular ? "popularity.desc" : "vote_average.desc";
+        String sorting = isPopular ? Constants.POPULAR.getConstant() : Constants.RATING.getConstant();
 
         api.getMovies(sorting, new Callback<Result>() {
             @Override
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                Toast.makeText(mContext,getResources().getString(R.string.error),Toast.LENGTH_LONG).show();
+                finish();
             }
         });
     }
@@ -121,34 +123,19 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
             final Movie tempMovie = movieList.get(position);
             viewHolder.txtViewTitle.setText(tempMovie.getTitle());
-            String imgURL = "http://image.tmdb.org/t/p/" + "w342" + tempMovie.getPoster_path();
+            String imgURL = Constants.URL.getConstant() + Constants.PICSIZE.getConstant()
+                    + tempMovie.getPoster_path();
 
-            /*
-            Jake Wharton helped with this
-            http://jakewharton.com/coercing-picasso-to-play-with-palette/
-            */
-            Picasso.with(mContext)
-                    .load(imgURL)
-                    .transform(PaletteTransformation.instance())
-                    .into(viewHolder.imgViewIcon, new com.squareup.picasso.Callback.EmptyCallback() {
-                        @Override public void onSuccess() {
-                            Bitmap bitmap = ((BitmapDrawable) viewHolder.imgViewIcon.getDrawable()).getBitmap();
-                            Palette palette = PaletteTransformation.getPalette(bitmap);
-                            viewHolder.viewBackground.setBackgroundColor(palette.getDarkVibrantColor(R.color.primary));
-                        }
-                    });
+            someRandomLoader.LoadImage(mContext, imgURL, viewHolder);
 
             viewHolder.viewMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext,"test at position " + position, Toast.LENGTH_LONG).show();
-                    Intent x = new Intent(mContext,Detail.class);
-
-                    Bundle b = new Bundle();
-                    b.putSerializable("test",tempMovie);
-                    x.putExtras(b);
-
-                    startActivity(x);
+                    Intent mIntent = new Intent(mContext,Detail.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable(Constants.MOVIE.getConstant(), tempMovie);
+                    mIntent.putExtras(mBundle);
+                    startActivity(mIntent);
                 }
             });
         }

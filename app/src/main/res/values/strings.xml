@@ -5,7 +5,10 @@
     <string name="action_rating">Highest Rated</string>
     <string name="title_activity_detail">Detail</string>
 
+    <string name="toast_popular">Changing to popular</string>
+    <string name="toast_rating">Changing to rating</string>
 
+    <string name="error">Something went wrong, this should never happen</string>
 
     <string name="font_family_medium">sans-serif-medium</string>
     <string name="font_family_regular">sans-serif</string>
