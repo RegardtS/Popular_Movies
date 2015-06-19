@@ -1,6 +1,8 @@
 package nanodegree.regi.popularmovies;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,6 +27,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import nanodegree.regi.popularmovies.Model.Movie;
 import nanodegree.regi.popularmovies.Model.Result;
 import retrofit.Callback;
@@ -34,15 +38,18 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    @InjectView(R.id.my_recycler_view)  RecyclerView mRecyclerView;
+    @InjectView(R.id.toolbar)           Toolbar toolbar;
+
+
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutmanager;
-    List<Movie> movieList = new ArrayList<>();
     private Context mContext;
+    List<Movie> movieList = new ArrayList<>();
     MovieAPI api;
-
-
     IImageLoader someRandomLoader;
+
+    Boolean isPopular = true;
+
 
 
     @Override
@@ -50,25 +57,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.inject(this);
+
         someRandomLoader = new IImageLoaderPicasso();
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         api = RestAdapter.getInstance().getRestAdapter().create(MovieAPI.class);
 
         mContext = getApplicationContext();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutmanager = new GridLayoutManager(this,2);
+        RecyclerView.LayoutManager mLayoutmanager = new GridLayoutManager(this,2);
         mRecyclerView.setLayoutManager(mLayoutmanager);
 
         mAdapter = new MyAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        requestData(true);
+        requestData();
     }
 
     @Override
@@ -82,16 +89,24 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_popular) {
             Toast.makeText(mContext,R.string.toast_popular,Toast.LENGTH_LONG).show();
-            requestData(true);
+            isPopular = true;
         }else if(id == R.id.action_rating){
             Toast.makeText(mContext,R.string.toast_rating,Toast.LENGTH_LONG).show();
-            requestData(false);
+            isPopular = false;
         }
+        requestData();
         return super.onOptionsItemSelected(item);
     }
 
-    private void requestData(Boolean isPopular){
-        String sorting = isPopular ? Constants.POPULAR.getConstant() : Constants.RATING.getConstant();
+    private void requestData(){
+        String sorting = "";
+        if(isPopular){
+            sorting = Constants.POPULAR.getConstant();
+            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_popular));
+        }else{
+            sorting = Constants.RATING.getConstant();
+            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_rating));
+        }
 
         api.getMovies(sorting, new Callback<Result>() {
             @Override
@@ -102,10 +117,30 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(mContext,getResources().getString(R.string.error),Toast.LENGTH_LONG).show();
+                failMessage();
+            }
+        });
+    }
+
+    private void failMessage(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(R.string.error_message);
+        alertDialogBuilder.setTitle(R.string.error_title);
+        alertDialogBuilder.setPositiveButton(R.string.generic_yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                requestData();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton(R.string.generic_no,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 

@@ -8,6 +8,7 @@ public enum Constants {
     MOVIE("movie"),
     URL("http://image.tmdb.org/t/p/"),
     PICSIZE("w342"),
+    BACKDROPSIZE("w780"),
     POPULAR("popularity.desc"),
     RATING("vote_average.desc");
 

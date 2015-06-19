@@ -16,6 +16,10 @@
 
 
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pulvinar turpis nec diam lobortis, eu posuere est aliquet. Integer malesuada velit finibus, gravida nulla eu, ultrices felis. Etiam lacinia ac sem vel gravida. Aenean consequat pharetra erat, eget porttitor lorem tristique ac. Sed vitae ipsum eros. Praesent sem dolor, ornare non tortor ut, feugiat imperdiet magna. Integer ornare eget turpis a cursus. Pellentesque mattis lacinia neque, eu faucibus mi fermentum sed. Duis consequat elit ut justo convallis commodo eu id sapien. Praesent vehicula ornare magna, eu placerat metus fringilla tristique.</string>
+    <string name="error_message">Would you like to try again?</string>
+    <string name="error_title">Something went wrong</string>
+    <string name="generic_yes">Yes</string>
+    <string name="generic_no">No</string>
 
 
 </resources>
