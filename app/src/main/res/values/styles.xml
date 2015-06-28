@@ -21,28 +21,32 @@
         <item name="android:src">@drawable/ic_filter_white_24dp</item>
     </style>
 
-    <style name="MaterialTextviewTitle" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_title_material</item>
-        <item name="android:fontFamily">@string/font_family_medium</item>
-        <item name="android:textColor">@color/primary_text</item>
-    </style>
-
-
-    <style name="MaterialTextviewSubhead" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_subtitle_material_toolbar</item>
-        <item name="android:fontFamily">@string/font_family_medium</item>
-
-        <item name="android:textColor">@color/secondary_text</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">48dp</item>
-    </style>
-
-    <style name="MaterialTextviewBody" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_body_1_material</item>
+    <style name="ListViewTitle" parent="android:TextAppearance">
+        <item name="android:textSize">@dimen/ListViewTextTitle</item>
         <item name="android:fontFamily">@string/font_family_regular</item>
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <style name="ListViewBody" parent="android:TextAppearance">
+        <item name="android:textSize">@dimen/ListViewTextBody</item>
+        <item name="android:fontFamily">@string/font_family_regular</item>
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ListViewView" >
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">72dp</item>
     </style>
 
 

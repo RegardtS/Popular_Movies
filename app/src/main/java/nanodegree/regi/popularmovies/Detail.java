@@ -2,17 +2,31 @@ package nanodegree.regi.popularmovies;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import nanodegree.regi.popularmovies.Model.Company;
+import nanodegree.regi.popularmovies.Model.Genre;
 import nanodegree.regi.popularmovies.Model.Movie;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -31,7 +45,7 @@ public class Detail extends AppCompatActivity {
     @InjectView(R.id.Popularity)    TextView Popularity;
     @InjectView(R.id.Budget)        TextView Budget;
     @InjectView(R.id.Revenue)       TextView Revenue;
-    @InjectView(R.id.Companies)     TextView Companies;
+    //@InjectView(R.id.Companies)     TextView Companies;
 
 
     @Override
@@ -82,7 +96,6 @@ public class Detail extends AppCompatActivity {
 
     }
 
-
     private void failMessage(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(R.string.error_message);
@@ -104,6 +117,22 @@ public class Detail extends AppCompatActivity {
         alertDialog.show();
     }
 
+    public void homePageTapped(View v){
+        gotoSite(currentMovie.getHomepage());
+    }
+    public void imdbTapped(View v){
+        gotoSite("http://www.imdb.com/title/" + currentMovie.getImdb_id());
+    }
+
+
+
+
+    private void gotoSite(String url){
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+
 
     private void initializeValues() {
         Tagline.setText(currentMovie.getTagline());
@@ -114,6 +143,22 @@ public class Detail extends AppCompatActivity {
         Popularity.setText(currentMovie.getPopularity()+"");
         Budget.setText(currentMovie.getBudget()+"");
         Revenue.setText(currentMovie.getRevenue()+"");
+
+        String genreSting = "";
+
+        for (int i = 0; i < currentMovie.getGenres().size(); i++) {
+
+            if(i!=0){
+                genreSting+=" | ";
+            }
+
+            genreSting += currentMovie.getGenres().get(i).getName();
+        }
+
+        Genre.setText(genreSting);
+
+
+
 //        Companies.setText(currentMovie.getTagline());
 //        Genre.setText(currentMovie.getTagline());
 

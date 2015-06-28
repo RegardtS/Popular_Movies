@@ -17,11 +17,11 @@ public class Movie implements Serializable {
     private String title;
     private String backdrop_path;
 
-    private float budget;
+    private long budget;
     private String homepage;
     private String imdb_id;
     private String original_language;
-    private float revenue;
+    private long revenue;
     private int runtime;
     private String tagline;
     private Boolean video;
@@ -54,11 +54,11 @@ public class Movie implements Serializable {
         this.production_countries = production_countries;
     }
 
-    public float getBudget() {
+    public long getBudget() {
         return budget;
     }
 
-    public void setBudget(float budget) {
+    public void setBudget(long budget) {
         this.budget = budget;
     }
 
@@ -86,11 +86,11 @@ public class Movie implements Serializable {
         this.original_language = original_language;
     }
 
-    public float getRevenue() {
+    public long getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(float revenue) {
+    public void setRevenue(long revenue) {
         this.revenue = revenue;
     }
 
