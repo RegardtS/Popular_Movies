@@ -10,7 +10,9 @@ public enum Constants {
     PICSIZE("w342"),
     BACKDROPSIZE("w780"),
     POPULAR("popularity.desc"),
-    RATING("vote_average.desc");
+    RATING("vote_average.desc"),
+    IMDBURL("http://www.imdb.com/title/");
+
 
     private String constant;
 

@@ -120,12 +120,10 @@ public class Detail extends AppCompatActivity {
     public void homePageTapped(View v){
         gotoSite(currentMovie.getHomepage());
     }
+
     public void imdbTapped(View v){
-        gotoSite("http://www.imdb.com/title/" + currentMovie.getImdb_id());
+        gotoSite(Constants.IMDBURL.getConstant() + currentMovie.getImdb_id());
     }
-
-
-
 
     private void gotoSite(String url){
         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -138,30 +136,22 @@ public class Detail extends AppCompatActivity {
         Tagline.setText(currentMovie.getTagline());
         Overview.setText(currentMovie.getOverview());
         Date.setText(currentMovie.getRelease_date());
-        Runtime.setText(currentMovie.getRuntime()+"");
-        Language.setText(currentMovie.getOriginal_language());
-        Popularity.setText(currentMovie.getPopularity()+"");
-        Budget.setText(currentMovie.getBudget()+"");
-        Revenue.setText(currentMovie.getRevenue()+"");
+        Runtime.setText(String.valueOf(currentMovie.getRuntime()));
+        Language.setText(String.valueOf(currentMovie.getOriginal_language()));
+        Popularity.setText(String.valueOf(currentMovie.getPopularity()));
+        Budget.setText("$ " + String.valueOf(currentMovie.getBudget()));
+        Revenue.setText("$ " + String.valueOf(currentMovie.getRevenue()));
 
         String genreSting = "";
 
         for (int i = 0; i < currentMovie.getGenres().size(); i++) {
-
             if(i!=0){
                 genreSting+=" | ";
             }
-
             genreSting += currentMovie.getGenres().get(i).getName();
         }
 
         Genre.setText(genreSting);
-
-
-
-//        Companies.setText(currentMovie.getTagline());
-//        Genre.setText(currentMovie.getTagline());
-
     }
 
 }
