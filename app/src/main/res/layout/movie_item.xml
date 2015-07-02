@@ -5,22 +5,21 @@
     android:background="@color/primary_text_default_material_light"
     android:id="@+id/view_main"
     >
-
-
-
     <ImageView
         android:layout_width="185dp"
         android:layout_height="278dp"
         android:id="@+id/img_poster_movie"
         android:scaleType="fitXY"
+        android:layout_centerInParent="true"
         />
-
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/view_background"
+        android:layout_alignLeft="@id/img_poster_movie"
+        android:layout_alignRight="@id/img_poster_movie"
         />
 
     <TextView
@@ -28,7 +27,6 @@
         android:layout_height="48dp"
         android:text="Tester"
         android:id="@+id/tv_title_movie"
-        android:layout_alignParentBottom="true"
         android:textColor="@color/abc_primary_text_material_dark"
         android:gravity="center_horizontal|start|center"
         android:textSize="16sp"
@@ -36,6 +34,8 @@
         android:paddingRight="16dp"
         android:maxLines="2"
         android:ellipsize="end"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@id/img_poster_movie"
+        android:layout_alignRight="@id/img_poster_movie" />
 
 </RelativeLayout>

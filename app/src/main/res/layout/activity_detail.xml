@@ -20,14 +20,12 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="50dp"
             app:expandedTitleMarginStart="50dp"
-
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/img_poster"
@@ -37,15 +35,13 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/test"
                     app:layout_collapseMode="parallax"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    />
+                    app:layout_scrollFlags="scroll|enterAlways" />
 
                 <View
-                    android:background="@drawable/gradient_background"
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
                     android:layout_alignParentBottom="true"
-                    />
+                    android:background="@drawable/gradient_background" />
 
             </RelativeLayout>
 
@@ -77,119 +73,129 @@
             <TextView
                 android:id="@+id/Tagline"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@string/font_family_medium"
                 android:gravity="center_vertical"
-                tools:text="The park is open."
                 android:textColor="@color/secondary_text"
-                android:textSize="14sp" />
+                android:textSize="24sp"
+                tools:text="The park is open." />
 
             <LinearLayout
-                style="@style/ListViewView"
-                >
+                android:id="@+id/LLReleaseDate"
+                style="@style/ListViewView">
+
                 <TextView
-                    android:text="Released"
                     style="@style/ListViewTitle"
-                    />
+                    android:text="Released" />
+
                 <TextView
                     android:id="@+id/Date"
-                    tools:text="14 May 2015"
                     style="@style/ListViewBody"
-                    />
+                    tools:text="14 May 2015" />
             </LinearLayout>
+
             <LinearLayout
-                style="@style/ListViewView"
-                >
+                android:id="@+id/LLGenre"
+                style="@style/ListViewView">
+
                 <TextView
 
                     style="@style/ListViewTitle"
                     android:text="Genres" />
+
                 <TextView
-                    style="@style/ListViewBody"
                     android:id="@+id/Genre"
-                    tools:text="Action | Comedy | Thriller"
-                    />
+                    style="@style/ListViewBody"
+                    tools:text="Action | Comedy | Thriller" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/LLOverview"
                 style="@style/ListViewView"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <TextView
-                    android:text="Overview"
                     style="@style/ListViewTitle"
-                    />
+                    android:text="Overview" />
+
                 <TextView
                     android:id="@+id/Overview"
-                    tools:text="@string/lorem"
                     style="@style/ListViewBody"
-                    />
+                    tools:text="@string/lorem" />
             </LinearLayout>
+
             <LinearLayout
-                style="@style/ListViewView"
-                >
+                android:id="@+id/LLRuntime"
+                style="@style/ListViewView">
+
                 <TextView
-                    android:text="Runtime"
                     style="@style/ListViewTitle"
-                    />
+                    android:text="Runtime" />
+
                 <TextView
                     android:id="@+id/Runtime"
-                    tools:text="65 Min"
                     style="@style/ListViewBody"
-                    />
+                    tools:text="65 Min" />
             </LinearLayout>
+
             <LinearLayout
-                style="@style/ListViewView"
-                >
+                android:id="@+id/LLLanguage"
+                style="@style/ListViewView">
+
                 <TextView
-                    android:text="Language"
                     style="@style/ListViewTitle"
-                    />
+                    android:text="Language" />
+
                 <TextView
                     android:id="@+id/Language"
-                    tools:text="English"
                     style="@style/ListViewBody"
-                    />
+                    tools:text="English" />
             </LinearLayout>
+
             <LinearLayout
-                style="@style/ListViewView"
-                >
+                android:id="@+id/LLPopularity"
+                style="@style/ListViewView">
+
                 <TextView
-                    android:text="Popularity"
                     style="@style/ListViewTitle"
-                    />
+                    android:text="Popularity" />
+
                 <TextView
                     android:id="@+id/Popularity"
-                    tools:text="100%"
                     style="@style/ListViewBody"
-                    />
+                    tools:text="100%" />
             </LinearLayout>
+
             <LinearLayout
-                style="@style/ListViewView"
-                >
+                android:id="@+id/LLBudget"
+                style="@style/ListViewView">
+
                 <TextView
-                    android:text="Budget"
                     style="@style/ListViewTitle"
-                    />
+                    android:text="Budget" />
+
                 <TextView
                     android:id="@+id/Budget"
-                    tools:text="$200k"
                     style="@style/ListViewBody"
-                    />
+                    tools:text="$200k" />
             </LinearLayout>
+
             <LinearLayout
-                style="@style/ListViewView"
-                >
+                android:id="@+id/LLRevenue"
+                style="@style/ListViewView">
+
                 <TextView
-                    android:text="Revenue"
                     style="@style/ListViewTitle"
-                    />
+                    android:text="Revenue" />
+
                 <TextView
                     android:id="@+id/Revenue"
-                    tools:text="$1.4 mil"
                     style="@style/ListViewBody"
-                    />
+                    tools:text="$1.4 mil" />
             </LinearLayout>
 
             <LinearLayout
@@ -201,20 +207,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Home Page"
                     android:onClick="homePageTapped"
-                    />
+                    android:text="Home Page" />
 
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="IMDB"
                     android:onClick="imdbTapped"
-                    />
+                    android:text="IMDB" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>

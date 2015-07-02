@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +46,15 @@ public class Detail extends AppCompatActivity {
     @InjectView(R.id.Popularity)    TextView Popularity;
     @InjectView(R.id.Budget)        TextView Budget;
     @InjectView(R.id.Revenue)       TextView Revenue;
-    //@InjectView(R.id.Companies)     TextView Companies;
+
+    @InjectView(R.id.LLReleaseDate) LinearLayout LLReleaseDate;
+    @InjectView(R.id.LLGenre)       LinearLayout LLGenre;
+    @InjectView(R.id.LLOverview)    LinearLayout LLOverview;
+    @InjectView(R.id.LLRuntime)     LinearLayout LLRuntime;
+    @InjectView(R.id.LLLanguage)    LinearLayout LLLanguage;
+    @InjectView(R.id.LLPopularity)  LinearLayout LLPopularity;
+    @InjectView(R.id.LLBudget)      LinearLayout LLBudget;
+    @InjectView(R.id.LLRevenue)     LinearLayout LLRevenue;
 
 
     @Override
@@ -133,17 +142,64 @@ public class Detail extends AppCompatActivity {
 
 
     private void initializeValues() {
-        Tagline.setText(currentMovie.getTagline());
-        Overview.setText(currentMovie.getOverview());
-        Date.setText(currentMovie.getRelease_date());
-        Runtime.setText(String.valueOf(currentMovie.getRuntime()));
-        Language.setText(String.valueOf(currentMovie.getOriginal_language()));
-        Popularity.setText(String.valueOf(currentMovie.getPopularity()));
-        Budget.setText("$ " + String.valueOf(currentMovie.getBudget()));
-        Revenue.setText("$ " + String.valueOf(currentMovie.getRevenue()));
+        String tagline = currentMovie.getTagline();
+        if(tagline.length() == 0){
+            Tagline.setVisibility(View.GONE);
+        }else{
+            Tagline.setText(tagline);
+        }
+
+        String overview = currentMovie.getOverview();
+        if(overview.length() == 0){
+            LLOverview.setVisibility(View.GONE);
+        }else{
+            Overview.setText(overview);
+        }
+
+        String date = currentMovie.getRelease_date();
+        if(date.length() == 0){
+            LLReleaseDate.setVisibility(View.GONE);
+        }else{
+            Date.setText(date);
+        }
+
+
+        int runtime = currentMovie.getRuntime();
+        if(runtime == 0){
+            LLRuntime.setVisibility(View.GONE);
+        }else{
+            Runtime.setText(String.valueOf(runtime) + " min");
+        }
+
+
+
+        String language = currentMovie.getOriginal_language();
+        if(language.length() == 0){
+            LLLanguage.setVisibility(View.GONE);
+        }else{
+            Language.setText(language);
+        }
+
+
+        float b = (float)Math.round(currentMovie.getPopularity());
+        Popularity.setText(String.valueOf(b) + " %");
+
+        long budget = currentMovie.getBudget();
+        if(budget == 0){
+            LLBudget.setVisibility(View.GONE);
+        }else{
+            Budget.setText("$ " + String.valueOf(budget));
+        }
+
+
+        long revenue = currentMovie.getRevenue();
+        if(revenue == 0){
+            LLRevenue.setVisibility(View.GONE);
+        }else{
+            Revenue.setText("$ " + revenue);
+        }
 
         String genreSting = "";
-
         for (int i = 0; i < currentMovie.getGenres().size(); i++) {
             if(i!=0){
                 genreSting+=" | ";
@@ -151,7 +207,13 @@ public class Detail extends AppCompatActivity {
             genreSting += currentMovie.getGenres().get(i).getName();
         }
 
-        Genre.setText(genreSting);
+        if(genreSting.length() == 0){
+            LLGenre.setVisibility(View.GONE);
+        }else{
+            Genre.setText(genreSting);
+        }
+
+
     }
 
 }

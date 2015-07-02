@@ -8,7 +8,7 @@ import android.support.v7.graphics.Palette;
 import com.squareup.picasso.Picasso;
 
 
-public class IImageLoaderPicasso implements IImageLoader {
+public class ImageLoaderPicasso implements IImageLoader {
     @Override
     public void LoadImage(Object... params) {
         Context mContext = (Context) params[0];

@@ -16,7 +16,7 @@ public enum Constants {
 
     private String constant;
 
-    private Constants(String constant) {
+    Constants(String constant) {
         this.constant = constant;
     }
 
