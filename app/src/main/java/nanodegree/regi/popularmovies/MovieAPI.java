@@ -13,7 +13,7 @@ import retrofit.http.Query;
 
 public interface MovieAPI {
 
-     String API_KEY = "7b71926f5bf6346606881805a612d87c";
+     String API_KEY = "";
 
 
 

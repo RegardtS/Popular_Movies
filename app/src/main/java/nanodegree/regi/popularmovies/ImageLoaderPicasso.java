@@ -13,7 +13,7 @@ public class ImageLoaderPicasso implements IImageLoader {
     public void LoadImage(Object... params) {
         Context mContext = (Context) params[0];
         String imgURL = (String) params[1];
-        final MainActivity.MyAdapter.ViewHolder viewHolder = (MainActivity.MyAdapter.ViewHolder) params[2];
+        final ItemListFragment.MyAdapter.ViewHolder viewHolder = (ItemListFragment.MyAdapter.ViewHolder) params[2];
 
 //        Jake Wharton helped with this
 //        http://jakewharton.com/coercing-picasso-to-play-with-palette/

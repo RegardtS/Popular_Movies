@@ -3,6 +3,8 @@
 
     <string name="action_popular">Most Popular</string>
     <string name="action_rating">Highest Rated</string>
+    <string name="action_favourite">Favourites</string>
+
     <string name="title_activity_detail">Detail</string>
 
     <string name="toast_popular">Changing to popular</string>

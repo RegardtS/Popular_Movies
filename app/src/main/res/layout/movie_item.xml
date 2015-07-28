@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="185dp"
     android:layout_height="278dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/primary_text_default_material_light"
-    android:id="@+id/view_main"
-    >
+    android:id="@+id/view_main">
     <ImageView
         android:layout_width="185dp"
         android:layout_height="278dp"
@@ -25,7 +25,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:text="Tester"
+        tools:text="Movie Title"
         android:id="@+id/tv_title_movie"
         android:textColor="@color/abc_primary_text_material_dark"
         android:gravity="center_horizontal|start|center"

@@ -1,16 +1,18 @@
 package nanodegree.regi.popularmovies;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,20 +24,18 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import nanodegree.regi.popularmovies.Model.Movie;
 import nanodegree.regi.popularmovies.Model.Result;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+/**
+ * Created by RegardtS on 2015-07-27.
+ */
+public class ItemListFragment extends Fragment {
 
-public class MainActivity extends AppCompatActivity {
-
-    @InjectView(R.id.my_recycler_view)  RecyclerView mRecyclerView;
-    @InjectView(R.id.toolbar)           Toolbar toolbar;
-
+    private Callbacks mCallbacks = sDummyCallbacks;
 
     private RecyclerView.Adapter mAdapter;
     private Context mContext;
@@ -45,62 +45,85 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean isPopular = true;
 
+    RecyclerView mRecyclerView;
 
+    private static Callbacks sDummyCallbacks = new Callbacks() {
+        @Override
+        public void OnItemSelected(String id) {
+        }
+    };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
-        ButterKnife.inject(this);
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
+
+        mCallbacks = (Callbacks) activity;
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.movie_list_view,container,false);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         someRandomLoader = new ImageLoaderPicasso();
-
-        setSupportActionBar(toolbar);
-
         api = RestAdapter.getInstance().getRestAdapter().create(MovieAPI.class);
-
-        mContext = getApplicationContext();
-
-        mRecyclerView.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager mLayoutmanager = new GridLayoutManager(this,2);
+        mContext = getActivity().getApplicationContext();
+        mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
+        RecyclerView.LayoutManager mLayoutmanager = new GridLayoutManager(mContext,2);
         mRecyclerView.setLayoutManager(mLayoutmanager);
-
         mAdapter = new MyAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
         requestData();
     }
 
+
+
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_popular) {
-            Toast.makeText(mContext,R.string.toast_popular,Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, R.string.toast_popular, Toast.LENGTH_LONG).show();
             isPopular = true;
         }else if(id == R.id.action_rating){
             Toast.makeText(mContext,R.string.toast_rating,Toast.LENGTH_LONG).show();
             isPopular = false;
         }
         requestData();
-        return super.onOptionsItemSelected(item);
+        return super.onContextItemSelected(item);
     }
 
     private void requestData(){
         String sorting = "";
         if(isPopular){
             sorting = Constants.POPULAR.getConstant();
-            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_popular));
+//            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_popular));
         }else{
             sorting = Constants.RATING.getConstant();
-            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_rating));
+//            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_rating));
         }
 
         api.getMovies(sorting, new Callback<Result>() {
@@ -118,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void failMessage(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
         alertDialogBuilder.setMessage(R.string.error_message);
         alertDialogBuilder.setTitle(R.string.error_title);
         alertDialogBuilder.setPositiveButton(R.string.generic_yes, new DialogInterface.OnClickListener() {
@@ -131,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialogBuilder.setNegativeButton(R.string.generic_no,new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                getActivity().finish();
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -139,8 +162,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public interface Callbacks{
+        public void OnItemSelected(String id);
+    }
 
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -158,19 +184,24 @@ public class MainActivity extends AppCompatActivity {
 
             someRandomLoader.LoadImage(mContext, imgURL, viewHolder);
 
+//            viewHolder.viewMain.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent mIntent = new Intent(mContext, ItemDetailActivity.class);
+//                    Bundle mBundle = new Bundle();
+//                    mBundle.putSerializable(Constants.MOVIE.getConstant(), tempMovie);
+//                    mIntent.putExtras(mBundle);
+//                    startActivity(mIntent);
+//                }
+//            });
             viewHolder.viewMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent mIntent = new Intent(mContext,Detail.class);
-                    Bundle mBundle = new Bundle();
-                    mBundle.putSerializable(Constants.MOVIE.getConstant(), tempMovie);
-                    mIntent.putExtras(mBundle);
-                    startActivity(mIntent);
+                    mCallbacks.OnItemSelected("test");
                 }
             });
+
         }
-
-
 
 
         @Override
@@ -196,37 +227,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

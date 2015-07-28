@@ -16,4 +16,12 @@
         android:title="@string/action_rating"
         />
 
+    <item
+        android:id="@+id/action_favourite"
+        app:showAsAction="never"
+        android:title="@string/action_favourite"
+        />
+
+
+
 </menu>
