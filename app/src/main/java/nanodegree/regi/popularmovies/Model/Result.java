@@ -1,5 +1,6 @@
 package nanodegree.regi.popularmovies.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,15 +9,15 @@ import java.util.List;
 public class Result {
 
     private int page;
-    private List<Movie> results;
+    private ArrayList<Movie> results;
     private int total_pages;
     private int total_results;
 
-    public List<Movie> getResults() {
+    public ArrayList<Movie> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {this.results = results;}
+    public void setResults(ArrayList<Movie> results) {this.results = results;}
 
     public int getTotal_results() {
         return total_results;

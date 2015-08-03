@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nanodegree.regi.popularmovies.Model.Movie;
 import nanodegree.regi.popularmovies.Model.Result;
@@ -39,17 +38,18 @@ public class ItemListFragment extends Fragment {
 
     private RecyclerView.Adapter mAdapter;
     private Context mContext;
-    List<Movie> movieList = new ArrayList<>();
+    ArrayList<Movie> movieList = new ArrayList<>();
     MovieAPI api;
     IImageLoader someRandomLoader;
 
     Boolean isPopular = true;
+    Boolean hasData = false;
 
     RecyclerView mRecyclerView;
 
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void OnItemSelected(String id) {
+        public void OnItemSelected(Movie selectedMovie) {
         }
     };
 
@@ -69,13 +69,31 @@ public class ItemListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.movie_list_view,container,false);
+        return inflater.inflate(R.layout.movie_list_view, container, false);
+    }
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(movieList.size() > 0){
+            outState.putParcelableArrayList("key", movieList);
+            Log.wtf("foobar","onSaveInstanceState in if");
+        }else{
+            Log.wtf("foobar", "onSaveInstanceState outside if");
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        if (savedInstanceState != null && savedInstanceState.containsKey("key")) {
+            movieList = savedInstanceState.getParcelableArrayList("key");
+            hasData = true;
+            Log.wtf("foobar","set hasData to true");
+        }
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -86,15 +104,16 @@ public class ItemListFragment extends Fragment {
         api = RestAdapter.getInstance().getRestAdapter().create(MovieAPI.class);
         mContext = getActivity().getApplicationContext();
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
-        RecyclerView.LayoutManager mLayoutmanager = new GridLayoutManager(mContext,2);
+        RecyclerView.LayoutManager mLayoutmanager = new GridLayoutManager(mContext, 2);
         mRecyclerView.setLayoutManager(mLayoutmanager);
-        mAdapter = new MyAdapter();
+            mAdapter = new MyAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        requestData();
+        if (movieList.isEmpty()) {
+            Log.wtf("foobar","calling request data");
+            requestData();
+        }
     }
-
-
 
 
     @Override
@@ -108,20 +127,20 @@ public class ItemListFragment extends Fragment {
         if (id == R.id.action_popular) {
             Toast.makeText(mContext, R.string.toast_popular, Toast.LENGTH_LONG).show();
             isPopular = true;
-        }else if(id == R.id.action_rating){
-            Toast.makeText(mContext,R.string.toast_rating,Toast.LENGTH_LONG).show();
+        } else if (id == R.id.action_rating) {
+            Toast.makeText(mContext, R.string.toast_rating, Toast.LENGTH_LONG).show();
             isPopular = false;
         }
         requestData();
         return super.onContextItemSelected(item);
     }
 
-    private void requestData(){
+    private void requestData() {
         String sorting = "";
-        if(isPopular){
+        if (isPopular) {
             sorting = Constants.POPULAR.getConstant();
 //            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_popular));
-        }else{
+        } else {
             sorting = Constants.RATING.getConstant();
 //            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_rating));
         }
@@ -140,7 +159,7 @@ public class ItemListFragment extends Fragment {
         });
     }
 
-    private void failMessage(){
+    private void failMessage() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
         alertDialogBuilder.setMessage(R.string.error_message);
         alertDialogBuilder.setTitle(R.string.error_title);
@@ -151,7 +170,7 @@ public class ItemListFragment extends Fragment {
             }
         });
 
-        alertDialogBuilder.setNegativeButton(R.string.generic_no,new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(R.string.generic_no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 getActivity().finish();
@@ -162,8 +181,8 @@ public class ItemListFragment extends Fragment {
     }
 
 
-    public interface Callbacks{
-        public void OnItemSelected(String id);
+    public interface Callbacks {
+        void OnItemSelected(Movie selectedMovie);
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -184,20 +203,11 @@ public class ItemListFragment extends Fragment {
 
             someRandomLoader.LoadImage(mContext, imgURL, viewHolder);
 
-//            viewHolder.viewMain.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent mIntent = new Intent(mContext, ItemDetailActivity.class);
-//                    Bundle mBundle = new Bundle();
-//                    mBundle.putSerializable(Constants.MOVIE.getConstant(), tempMovie);
-//                    mIntent.putExtras(mBundle);
-//                    startActivity(mIntent);
-//                }
-//            });
             viewHolder.viewMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallbacks.OnItemSelected("test");
+
+                    mCallbacks.OnItemSelected(tempMovie);
                 }
             });
 

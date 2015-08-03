@@ -1,13 +1,20 @@
 package nanodegree.regi.popularmovies;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import nanodegree.regi.popularmovies.Model.Movie;
+
 public class ItemListActivity extends AppCompatActivity implements ItemListFragment.Callbacks {
 
     private boolean mTwoPane;
+
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,22 +28,38 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
             // res/values-sw600dp). If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
-
-            Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, "test");
-            ItemDetailFragment fragment = new ItemDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
+            // In two-pane mode, list items should be given the
+            // 'activated' state when touched.
 
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
-    public void OnItemSelected(String id) {
-        Toast.makeText(getApplicationContext(),"callback == " + id,Toast.LENGTH_LONG).show();
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void OnItemSelected(Movie selectedMovie) {
+        if(mTwoPane){
+
+//            Bundle arguments = new Bundle();
+//            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, "test");
+//            ItemDetailFragment fragment = new ItemDetailFragment();
+//            fragment.setArguments(arguments);
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.item_detail_container, fragment)
+//                    .commit();
+        }else{
+            Intent mIntent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+            mIntent.putExtra(Constants.MOVIE.getConstant(),selectedMovie);
+            startActivity(mIntent);
+        }
     }
 }
 

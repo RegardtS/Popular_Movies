@@ -1,5 +1,6 @@
 package nanodegree.regi.popularmovies;
 
+;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ public class ItemDetailActivity extends AppCompatActivity {
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
@@ -31,8 +34,9 @@ public class ItemDetailActivity extends AppCompatActivity {
                     .commit();
         }
 
-
     }
+
+
 
 
 }
