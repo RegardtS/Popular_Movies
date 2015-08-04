@@ -17,6 +17,7 @@
     <dimen name="ListViewTextBody">14sp</dimen>
 
 
-
+    <dimen name="item_margin">8dp</dimen>
+    <dimen name="column_width">185dp</dimen>
 
 </resources>

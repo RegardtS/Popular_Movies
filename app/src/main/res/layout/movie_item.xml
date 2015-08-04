@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="185dp"
-    android:layout_height="278dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/primary_text_default_material_light"
-    android:id="@+id/view_main">
+    android:id="@+id/view_main"
+    android:minHeight="278dp"
+    android:minWidth="185dp"
+    >
     <ImageView
-        android:layout_width="185dp"
+        android:layout_width="fill_parent"
         android:layout_height="278dp"
         android:id="@+id/img_poster_movie"
         android:scaleType="fitXY"
-        android:layout_centerInParent="true"
         />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
         android:id="@+id/view_background"
-        android:layout_alignLeft="@id/img_poster_movie"
-        android:layout_alignRight="@id/img_poster_movie"
+        android:layout_alignBottom="@id/img_poster_movie"
         />
 
     <TextView
@@ -34,8 +33,6 @@
         android:paddingRight="16dp"
         android:maxLines="2"
         android:ellipsize="end"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@id/img_poster_movie"
-        android:layout_alignRight="@id/img_poster_movie" />
+        android:layout_alignBottom="@id/img_poster_movie"/>
 
 </RelativeLayout>

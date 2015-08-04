@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -47,6 +49,8 @@ public class ItemListFragment extends Fragment {
 
     RecyclerView mRecyclerView;
 
+    SharedPreferences prefs;
+
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
         public void OnItemSelected(Movie selectedMovie) {
@@ -76,24 +80,21 @@ public class ItemListFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         if(movieList.size() > 0){
             outState.putParcelableArrayList("key", movieList);
-            Log.wtf("foobar","onSaveInstanceState in if");
-        }else{
-            Log.wtf("foobar", "onSaveInstanceState outside if");
         }
-        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         if (savedInstanceState != null && savedInstanceState.containsKey("key")) {
             movieList = savedInstanceState.getParcelableArrayList("key");
             hasData = true;
-            Log.wtf("foobar","set hasData to true");
         }
-        super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override
@@ -103,14 +104,23 @@ public class ItemListFragment extends Fragment {
         someRandomLoader = new ImageLoaderPicasso();
         api = RestAdapter.getInstance().getRestAdapter().create(MovieAPI.class);
         mContext = getActivity().getApplicationContext();
+
+
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
-        RecyclerView.LayoutManager mLayoutmanager = new GridLayoutManager(mContext, 2);
-        mRecyclerView.setLayoutManager(mLayoutmanager);
-            mAdapter = new MyAdapter();
+        MarginDecoration decorator = new MarginDecoration(mContext);
+        mRecyclerView.addItemDecoration(decorator);
+        mRecyclerView.setHasFixedSize(true);
+
+        mAdapter = new MyAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
+        prefs = mContext.getSharedPreferences("test", Context.MODE_PRIVATE);
+
+        if(prefs.contains("sorting")){
+            isPopular = prefs.getBoolean("sorting",true);
+        }
+
         if (movieList.isEmpty()) {
-            Log.wtf("foobar","calling request data");
             requestData();
         }
     }
@@ -127,9 +137,11 @@ public class ItemListFragment extends Fragment {
         if (id == R.id.action_popular) {
             Toast.makeText(mContext, R.string.toast_popular, Toast.LENGTH_LONG).show();
             isPopular = true;
+            prefs.edit().putBoolean("sorting",true).apply();
         } else if (id == R.id.action_rating) {
             Toast.makeText(mContext, R.string.toast_rating, Toast.LENGTH_LONG).show();
             isPopular = false;
+            prefs.edit().putBoolean("sorting",false).apply();
         }
         requestData();
         return super.onContextItemSelected(item);
@@ -188,6 +200,12 @@ public class ItemListFragment extends Fragment {
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         @Override
+        public void onViewRecycled(ViewHolder holder) {
+            super.onViewRecycled(holder);
+            holder.itemView.setTag("null");
+        }
+
+        @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, null);
             ViewHolder viewHolder = new ViewHolder(itemLayoutView);
@@ -198,15 +216,13 @@ public class ItemListFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
             final Movie tempMovie = movieList.get(position);
             viewHolder.txtViewTitle.setText(tempMovie.getTitle());
-            String imgURL = Constants.URL.getConstant() + Constants.PICSIZE.getConstant()
-                    + tempMovie.getPoster_path();
+            String imgURL = Constants.URL.getConstant() + Constants.PICSIZE.getConstant() + tempMovie.getPoster_path();
 
             someRandomLoader.LoadImage(mContext, imgURL, viewHolder);
 
             viewHolder.viewMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     mCallbacks.OnItemSelected(tempMovie);
                 }
             });
@@ -232,7 +248,7 @@ public class ItemListFragment extends Fragment {
                 txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.tv_title_movie);
                 imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.img_poster_movie);
                 viewMain = (RelativeLayout) itemLayoutView.findViewById(R.id.view_main);
-                viewBackground = (View) itemLayoutView.findViewById(R.id.view_background);
+                viewBackground = itemLayoutView.findViewById(R.id.view_background);
             }
         }
     }

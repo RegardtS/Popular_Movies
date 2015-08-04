@@ -1,8 +1,12 @@
 package nanodegree.regi.popularmovies;
 
+
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+
+
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,16 +36,24 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
             // 'activated' state when touched.
 
         }
+
+       fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        //getFragmentManager().putFragment(outState,"fragment",fragment);
         super.onSaveInstanceState(outState);
+
+        getSupportFragmentManager().putFragment(outState,fragment.getClass().getName(),fragment);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState !=null){
+            fragment = getSupportFragmentManager().getFragment(savedInstanceState,fragment.getClass().getName());
+        }
     }
 
     @Override
