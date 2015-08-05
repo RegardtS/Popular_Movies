@@ -59,17 +59,19 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
     @Override
     public void OnItemSelected(Movie selectedMovie) {
         if(mTwoPane){
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(Constants.MOVIE.getConstant(),selectedMovie);
 
-//            Bundle arguments = new Bundle();
-//            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, "test");
-//            ItemDetailFragment fragment = new ItemDetailFragment();
-//            fragment.setArguments(arguments);
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.item_detail_container, fragment)
-//                    .commit();
+            ItemDetailFragment fragment = new ItemDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, fragment)
+                    .commit();
         }else{
             Intent mIntent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-            mIntent.putExtra(Constants.MOVIE.getConstant(),selectedMovie);
+            Bundle args = new Bundle();
+            args.putParcelable(Constants.MOVIE.getConstant(),selectedMovie);
+            mIntent.putExtras(args);
             startActivity(mIntent);
         }
     }

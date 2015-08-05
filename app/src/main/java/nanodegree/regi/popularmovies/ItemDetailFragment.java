@@ -87,7 +87,6 @@ public class ItemDetailFragment extends Fragment {
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        currentMovie = getActivity().getIntent().getParcelableExtra(Constants.MOVIE.getConstant());
 
 
 
@@ -110,7 +109,19 @@ public class ItemDetailFragment extends Fragment {
 
     }
 
-        private void makeRequest(){
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle extras = this.getArguments();
+
+//        extras = getActivity().getIntent().getExtras();
+
+
+        currentMovie = extras.getParcelable(Constants.MOVIE.getConstant());
+    }
+
+    private void makeRequest(){
         MovieAPI api = RestAdapter.getInstance().getRestAdapter().create(MovieAPI.class);
             api.getMovie(currentMovie.getId(), new Callback<Movie>() {
                 @Override
