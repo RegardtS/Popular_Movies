@@ -172,7 +172,7 @@ public class ItemListFragment extends Fragment {
     }
 
     private void failMessage() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage(R.string.error_message);
         alertDialogBuilder.setTitle(R.string.error_title);
         alertDialogBuilder.setPositiveButton(R.string.generic_yes, new DialogInterface.OnClickListener() {

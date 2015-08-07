@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +27,7 @@ import retrofit.client.Response;
 
 public class ItemDetailFragment extends Fragment {
 
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final boolean isTablet = false;
 
     private Movie currentMovie;
 
@@ -52,6 +53,8 @@ public class ItemDetailFragment extends Fragment {
     Context mContext;
 
     Toolbar toolbar;
+
+    boolean isSinglePane = false;
 
 
     @Override
@@ -113,12 +116,14 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle extras = this.getArguments();
+        currentMovie = getArguments().getParcelable(Constants.MOVIE.getConstant());
 
-//        extras = getActivity().getIntent().getExtras();
+        if(getArguments().getBoolean("isSinglePane")){
+            isSinglePane = true;
+        }
 
 
-        currentMovie = extras.getParcelable(Constants.MOVIE.getConstant());
+
     }
 
     private void makeRequest(){
@@ -244,6 +249,13 @@ public class ItemDetailFragment extends Fragment {
             LLGenre.setVisibility(View.GONE);
         }else{
             Genre.setText(genreSting);
+        }
+
+
+        if(currentMovie.getVideo()){
+            Toast.makeText(getActivity().getBaseContext(),"Does have a video",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getActivity().getBaseContext(),"NO video",Toast.LENGTH_SHORT).show();
         }
 
 

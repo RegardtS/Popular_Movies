@@ -5,6 +5,7 @@ import java.util.List;
 import nanodegree.regi.popularmovies.Model.Company;
 import nanodegree.regi.popularmovies.Model.Movie;
 import nanodegree.regi.popularmovies.Model.Result;
+import nanodegree.regi.popularmovies.Model.Video;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -13,9 +14,7 @@ import retrofit.http.Query;
 
 public interface MovieAPI {
 
-     String API_KEY = "";
-
-
+    String API_KEY = "";
 
     @GET("/3/discover/movie?api_key=" + API_KEY)
     void getMovies(@Query("sort_by") String sort_by, Callback<Result> response);
@@ -25,6 +24,9 @@ public interface MovieAPI {
 
     @GET("/3/company/{id}?api_key=" + API_KEY)
     void getCompany(@Path("id")int id, Callback<Company> response);
+
+    @GET("/3/movie/{id}/videos?api_key=" + API_KEY)
+    void getVideos(@Path("id")int id, Callback<Video> response);
 
 
 }

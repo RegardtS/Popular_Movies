@@ -25,8 +25,10 @@ public class ItemDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-//            arguments.putString(ItemDetailFragment.ARG_ITEM_ID,
-//                    getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));
+
+            arguments.putParcelable(Constants.MOVIE.getConstant(), getIntent().getParcelableExtra(Constants.MOVIE.getConstant()));
+            arguments.putBoolean("isSinglePane",true);
+
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

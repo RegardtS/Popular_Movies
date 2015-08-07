@@ -6,6 +6,7 @@
     android:id="@+id/view_main"
     android:minHeight="278dp"
     android:minWidth="185dp"
+    android:background="@color/divider"
     >
     <ImageView
         android:layout_width="fill_parent"

@@ -21,6 +21,8 @@ public class ImageLoaderPicasso implements IImageLoader {
         Picasso.with(mContext)
                 .load(imgURL)
                 .transform(PaletteTransformation.instance())
+                .error(R.drawable.no_available)
+                .placeholder(R.drawable.loading)
                 .into(viewHolder.imgViewIcon, new com.squareup.picasso.Callback.EmptyCallback() {
                     @Override
                     public void onSuccess() {

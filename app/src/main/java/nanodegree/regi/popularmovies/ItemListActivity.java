@@ -61,7 +61,6 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
         if(mTwoPane){
             Bundle arguments = new Bundle();
             arguments.putParcelable(Constants.MOVIE.getConstant(),selectedMovie);
-
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -69,9 +68,7 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
                     .commit();
         }else{
             Intent mIntent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-            Bundle args = new Bundle();
-            args.putParcelable(Constants.MOVIE.getConstant(),selectedMovie);
-            mIntent.putExtras(args);
+            mIntent.putExtra(Constants.MOVIE.getConstant(),selectedMovie);
             startActivity(mIntent);
         }
     }
