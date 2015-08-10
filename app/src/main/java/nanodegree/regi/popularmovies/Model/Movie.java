@@ -3,7 +3,6 @@ package nanodegree.regi.popularmovies.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +33,17 @@ public class Movie implements Parcelable {
     List<Company> production_companies;
     List<Country> production_countries;
 
+    TrailerResult trailers;
+
+    public ReviewsResult getReviews() {
+        return reviews;
+    }
+
+    ReviewsResult reviews;
+
+
+
+
     Movie(Parcel in) {
         id = in.readInt();
         original_title = in.readString();
@@ -60,6 +70,9 @@ public class Movie implements Parcelable {
 
         production_countries = new ArrayList<>();
         in.readTypedList(production_countries, Country.CREATOR);
+
+        trailers = in.readParcelable(TrailerResult.class.getClassLoader());
+        reviews = in.readParcelable(ReviewsResult.class.getClassLoader());
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -101,8 +114,11 @@ public class Movie implements Parcelable {
         dest.writeTypedList(genres);
         dest.writeTypedList(production_companies);
         dest.writeTypedList(production_countries);
+        dest.writeParcelable(trailers, flags);
+        dest.writeParcelable(reviews, flags);
     }
 
+    public TrailerResult getTrailers() {return trailers;}
 
     public int getId() {
         return id;

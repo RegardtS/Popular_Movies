@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Regardt on 2015-06-06.
  */
-public class Result {
+public class MovieResult {
 
     private int page;
     private ArrayList<Movie> results;

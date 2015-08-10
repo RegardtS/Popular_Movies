@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import nanodegree.regi.popularmovies.Model.Movie;
-import nanodegree.regi.popularmovies.Model.Result;
+import nanodegree.regi.popularmovies.Model.MovieResult;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -50,6 +48,8 @@ public class ItemListFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     SharedPreferences prefs;
+
+    LinearLayoutManager mLayoutManager;
 
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
@@ -107,11 +107,16 @@ public class ItemListFragment extends Fragment {
 
 
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
         MarginDecoration decorator = new MarginDecoration(mContext);
         mRecyclerView.addItemDecoration(decorator);
         mRecyclerView.setHasFixedSize(true);
-
         mAdapter = new MyAdapter();
+
+
+
         mRecyclerView.setAdapter(mAdapter);
 
         prefs = mContext.getSharedPreferences("test", Context.MODE_PRIVATE);
@@ -157,10 +162,10 @@ public class ItemListFragment extends Fragment {
 //            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_rating));
         }
 
-        api.getMovies(sorting, new Callback<Result>() {
+        api.getMovies(sorting, new Callback<MovieResult>() {
             @Override
-            public void success(Result result, Response response) {
-                movieList = result.getResults();
+            public void success(MovieResult movieResult, Response response) {
+                movieList = movieResult.getResults();
                 mAdapter.notifyDataSetChanged();
             }
 

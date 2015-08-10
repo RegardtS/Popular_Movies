@@ -1,6 +1,5 @@
 package nanodegree.regi.popularmovies;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,14 +8,19 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -50,17 +54,47 @@ public class ItemDetailFragment extends Fragment {
     LinearLayout LLBudget;
     LinearLayout LLRevenue;
 
-    Context mContext;
 
     Toolbar toolbar;
 
     boolean isSinglePane = false;
+    boolean showShare = false;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_detail_fragment, container, false);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (showShare){
+            inflater.inflate(R.menu.menu_detail, menu);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_share: {
+               String youtubeString = "https://www.youtube.com/watch?v=" + currentMovie.getTrailers().getYoutube().get(0).getSource();
+                String shareBody = "Check out this awesome trailer for "+ currentMovie.getTitle() + " "  + youtubeString;
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, currentMovie.getTrailers().getYoutube().get(0).getName());
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.app_name)));
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -178,8 +212,39 @@ public class ItemDetailFragment extends Fragment {
         startActivity(i);
     }
 
-
     private void initializeValues() {
+
+
+        //LLReviews
+
+        LinearLayout lt = (LinearLayout) getView().findViewById(R.id.LLReviews);
+
+        for (int i = 0; i < currentMovie.getReviews().getResults().size(); i++) {
+            LinearLayout ll = (LinearLayout) getLayoutInflater(getArguments()).inflate(R.layout.movie_review_item,null);
+
+            TextView tv = (TextView) ll.findViewById(R.id.txt_review_title);
+            TextView tv2 = (TextView) ll.findViewById(R.id.txt_review_content);
+
+            tv.setText(currentMovie.getReviews().getResults().get(i).getAuthor());
+            tv2.setText(currentMovie.getReviews().getResults().get(i).getContent());
+
+
+            lt.addView(ll);
+        }
+
+
+
+
+
+        if(currentMovie.getTrailers().getYoutube().size()>0){
+            showShare=true;
+            getActivity().invalidateOptionsMenu();
+        }
+
+//        Log.wtf("regi", currentMovie.getReviews().getResults().get(0).getContent());
+//        Log.wtf("regi", currentMovie.getTrailers().getYoutube().get(0).getName());
+
+
         String tagline = currentMovie.getTagline();
         if(tagline.length() == 0){
             Tagline.setVisibility(View.GONE);
@@ -252,11 +317,7 @@ public class ItemDetailFragment extends Fragment {
         }
 
 
-        if(currentMovie.getVideo()){
-            Toast.makeText(getActivity().getBaseContext(),"Does have a video",Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getActivity().getBaseContext(),"NO video",Toast.LENGTH_SHORT).show();
-        }
+
 
 
     }

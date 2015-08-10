@@ -1,8 +1,10 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EEE"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -50,9 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways"
-
-                />
+                app:layout_scrollFlags="scroll|enterAlways" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -63,140 +63,190 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray_background"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/Tagline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@string/font_family_medium"
-                android:gravity="center_vertical"
+
+                android:layout_margin="24dp"
+
+                android:fontFamily="@string/font_family_light"
+                android:gravity="center"
                 android:textColor="@color/secondary_text"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 tools:text="The park is open." />
 
-            <LinearLayout
-                android:id="@+id/LLReleaseDate"
-                style="@style/ListViewView">
 
-                <TextView
-                    style="@style/ListViewTitle"
-                    android:text="Released" />
+            <!--android.support.v7.widget.CardView-->
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_background"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:visibility="gone"
+                >
 
-                <TextView
-                    android:id="@+id/Date"
-                    style="@style/ListViewBody"
-                    tools:text="14 May 2015" />
+                <LinearLayout
+                    android:id="@+id/LLReleaseDate"
+                    style="@style/ListViewView">
+
+                    <TextView
+                        style="@style/ListViewTitle"
+                        android:text="Released" />
+
+                    <TextView
+                        android:id="@+id/Date"
+                        style="@style/ListViewBody"
+                        tools:text="14 May 2015" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLGenre"
+                    style="@style/ListViewView">
+
+                    <TextView
+
+                        style="@style/ListViewTitle"
+                        android:text="Genres" />
+
+                    <TextView
+                        android:id="@+id/Genre"
+                        style="@style/ListViewBody"
+                        tools:text="Action | Comedy | Thriller" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLOverview"
+                    style="@style/ListViewView"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/ListViewTitle"
+                        android:text="Overview" />
+
+                    <TextView
+                        android:id="@+id/Overview"
+                        style="@style/ListViewBody"
+                        tools:text="@string/lorem" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLRuntime"
+                    style="@style/ListViewView">
+
+                    <TextView
+                        style="@style/ListViewTitle"
+                        android:text="Runtime" />
+
+                    <TextView
+                        android:id="@+id/Runtime"
+                        style="@style/ListViewBody"
+                        tools:text="65 Min" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLLanguage"
+                    style="@style/ListViewView">
+
+                    <TextView
+                        style="@style/ListViewTitle"
+                        android:text="Language" />
+
+                    <TextView
+                        android:id="@+id/Language"
+                        style="@style/ListViewBody"
+                        tools:text="English" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLPopularity"
+                    style="@style/ListViewView">
+
+                    <TextView
+                        style="@style/ListViewTitle"
+                        android:text="Popularity" />
+
+                    <TextView
+                        android:id="@+id/Popularity"
+                        style="@style/ListViewBody"
+                        tools:text="100%" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLBudget"
+                    style="@style/ListViewView">
+
+                    <TextView
+                        style="@style/ListViewTitle"
+                        android:text="Budget" />
+
+                    <TextView
+                        android:id="@+id/Budget"
+                        style="@style/ListViewBody"
+                        tools:text="$200k" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLRevenue"
+                    style="@style/ListViewView">
+
+                    <TextView
+                        style="@style/ListViewTitle"
+                        android:text="Revenue" />
+
+                    <TextView
+                        android:id="@+id/Revenue"
+                        style="@style/ListViewBody"
+                        tools:text="$1.4 mil" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/LLGenre"
-                style="@style/ListViewView">
-
-                <TextView
-
-                    style="@style/ListViewTitle"
-                    android:text="Genres" />
-
-                <TextView
-                    android:id="@+id/Genre"
-                    style="@style/ListViewBody"
-                    tools:text="Action | Comedy | Thriller" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LLOverview"
-                style="@style/ListViewView"
-                android:layout_height="wrap_content">
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/LLReviewsContainer"
+                >
                 <TextView
                     style="@style/ListViewTitle"
-                    android:text="Overview" />
+                    android:text="Reviews"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    />
 
-                <TextView
-                    android:id="@+id/Overview"
-                    style="@style/ListViewBody"
-                    tools:text="@string/lorem" />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:fillViewport="true"
+                    >
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:id="@+id/LLReviews"
+                        android:divider="@drawable/review_divider"
+                        android:showDividers="middle"
+                        android:padding="16dp"
+                        >
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/LLRuntime"
-                style="@style/ListViewView">
 
-                <TextView
-                    style="@style/ListViewTitle"
-                    android:text="Runtime" />
 
-                <TextView
-                    android:id="@+id/Runtime"
-                    style="@style/ListViewBody"
-                    tools:text="65 Min" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LLLanguage"
-                style="@style/ListViewView">
-
-                <TextView
-                    style="@style/ListViewTitle"
-                    android:text="Language" />
-
-                <TextView
-                    android:id="@+id/Language"
-                    style="@style/ListViewBody"
-                    tools:text="English" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LLPopularity"
-                style="@style/ListViewView">
-
-                <TextView
-                    style="@style/ListViewTitle"
-                    android:text="Popularity" />
-
-                <TextView
-                    android:id="@+id/Popularity"
-                    style="@style/ListViewBody"
-                    tools:text="100%" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LLBudget"
-                style="@style/ListViewView">
-
-                <TextView
-                    style="@style/ListViewTitle"
-                    android:text="Budget" />
-
-                <TextView
-                    android:id="@+id/Budget"
-                    style="@style/ListViewBody"
-                    tools:text="$200k" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LLRevenue"
-                style="@style/ListViewView">
-
-                <TextView
-                    style="@style/ListViewTitle"
-                    android:text="Revenue" />
-
-                <TextView
-                    android:id="@+id/Revenue"
-                    style="@style/ListViewBody"
-                    tools:text="$1.4 mil" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -206,6 +256,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:layout_weight="1"
                     android:onClick="homePageTapped"
                     android:text="Home Page" />
@@ -213,12 +264,12 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:layout_weight="1"
                     android:onClick="imdbTapped"
                     android:text="IMDB" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 
