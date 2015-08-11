@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -171,9 +172,9 @@ public class ItemDetailFragment extends Fragment {
 
                 @Override
                 public void failure(RetrofitError error) {
-                failMessage();
-            }
-        });
+                    failMessage();
+                }
+            });
 
     }
 
@@ -198,14 +199,6 @@ public class ItemDetailFragment extends Fragment {
         alertDialog.show();
     }
 
-    public void homePageTapped(View v){
-        gotoSite(currentMovie.getHomepage());
-    }
-
-    public void imdbTapped(View v) {
-        gotoSite(Constants.IMDBURL.getConstant() + currentMovie.getImdb_id());
-    }
-
     private void gotoSite(String url){
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
@@ -215,34 +208,87 @@ public class ItemDetailFragment extends Fragment {
     private void initializeValues() {
 
 
-        //LLReviews
+        Button homePage = (Button) getView().findViewById(R.id.btnHome);
+        Button imdb = (Button) getView().findViewById(R.id.btnImdb);
+
+
+        if(currentMovie.getHomepage().isEmpty()){
+            homePage.setVisibility(View.GONE);
+        }else{
+            homePage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoSite(currentMovie.getHomepage());
+                }
+            });
+        }
+
+        if(currentMovie.getImdb_id().isEmpty()){
+            imdb.setVisibility(View.GONE);
+        }else{
+            imdb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoSite(Constants.IMDBURL.getConstant() + currentMovie.getImdb_id());
+                }
+            });
+        }
+
 
         LinearLayout lt = (LinearLayout) getView().findViewById(R.id.LLReviews);
-
-        for (int i = 0; i < currentMovie.getReviews().getResults().size(); i++) {
-            LinearLayout ll = (LinearLayout) getLayoutInflater(getArguments()).inflate(R.layout.movie_review_item,null);
-
-            TextView tv = (TextView) ll.findViewById(R.id.txt_review_title);
-            TextView tv2 = (TextView) ll.findViewById(R.id.txt_review_content);
-
-            tv.setText(currentMovie.getReviews().getResults().get(i).getAuthor());
-            tv2.setText(currentMovie.getReviews().getResults().get(i).getContent());
+        lt.removeAllViews();
 
 
-            lt.addView(ll);
+        if(currentMovie.getReviews().getResults().size() > 0){
+            for (int i = 0; i < currentMovie.getReviews().getResults().size(); i++) {
+                LinearLayout ll = (LinearLayout) getLayoutInflater(getArguments()).inflate(R.layout.movie_review_item,null);
+
+                TextView tv = (TextView) ll.findViewById(R.id.txt_review_title);
+                TextView tv2 = (TextView) ll.findViewById(R.id.txt_review_content);
+
+                tv.setText(currentMovie.getReviews().getResults().get(i).getAuthor());
+                tv2.setText(currentMovie.getReviews().getResults().get(i).getContent());
+
+
+                lt.addView(ll);
+            }
+        }else{
+            getView().findViewById(R.id.LLReviewsContainer).setVisibility(View.GONE);
         }
 
 
 
+        LinearLayout linearLayout = (LinearLayout) getView().findViewById(R.id.LLTrailers);
+        linearLayout.removeAllViews();
 
+        if(currentMovie.getTrailers().getYoutube().size() > 0){
 
-        if(currentMovie.getTrailers().getYoutube().size()>0){
             showShare=true;
             getActivity().invalidateOptionsMenu();
-        }
 
-//        Log.wtf("regi", currentMovie.getReviews().getResults().get(0).getContent());
-//        Log.wtf("regi", currentMovie.getTrailers().getYoutube().get(0).getName());
+            for (int i = 0; i < currentMovie.getTrailers().getYoutube().size(); i++) {
+
+                LinearLayout ll = (LinearLayout) getLayoutInflater(getArguments()).inflate(R.layout.movie_trailer_item,null);
+                ll.setTag(i);
+
+                TextView tv = (TextView) ll.findViewById(R.id.txt_trailer_title);
+
+
+                tv.setText(currentMovie.getTrailers().getYoutube().get(i).getName());
+
+
+                ll.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+currentMovie.getTrailers().getYoutube().get((int) v.getTag()).getSource())));
+                    }
+                });
+
+                linearLayout.addView(ll);
+            }
+        }else{
+            getView().findViewById(R.id.LLTrailerContainer).setVisibility(View.GONE);
+        }
 
 
         String tagline = currentMovie.getTagline();

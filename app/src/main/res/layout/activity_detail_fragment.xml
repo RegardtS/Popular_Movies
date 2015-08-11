@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="8dp"
+        >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -81,15 +83,13 @@
                 android:textSize="18sp"
                 tools:text="The park is open." />
 
-
-            <!--android.support.v7.widget.CardView-->
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_background"
                 android:orientation="vertical"
                 android:paddingBottom="8dp"
-                android:visibility="gone"
+                android:elevation="4dp"
                 >
 
                 <LinearLayout
@@ -213,6 +213,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/LLReviewsContainer"
+                android:background="@android:color/white"
+                android:elevation="4dp"
+                android:layout_marginTop="16dp"
                 >
                 <TextView
                     style="@style/ListViewTitle"
@@ -234,7 +237,7 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:id="@+id/LLReviews"
-                        android:divider="@drawable/review_divider"
+                        android:divider="@drawable/linear_divider"
                         android:showDividers="middle"
                         android:padding="16dp"
                         >
@@ -245,6 +248,46 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/LLTrailerContainer"
+                android:elevation="4dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/white"
+                >
+                <TextView
+                    style="@style/ListViewTitle"
+                    android:text="Trailers"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:fillViewport="true"
+                    >
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:id="@+id/LLTrailers"
+                        android:divider="@drawable/linear_divider"
+                        android:showDividers="middle"
+                        android:padding="16dp"
+                        >
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
 
 
 
@@ -258,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_weight="1"
-                    android:onClick="homePageTapped"
+                    android:id="@+id/btnHome"
                     android:text="Home Page" />
 
                 <Button
@@ -266,7 +309,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_weight="1"
-                    android:onClick="imdbTapped"
+                    android:id="@+id/btnImdb"
                     android:text="IMDB" />
 
             </LinearLayout>
