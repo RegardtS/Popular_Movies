@@ -85,8 +85,8 @@ public class ItemDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_share: {
-               String youtubeString = "https://www.youtube.com/watch?v=" + currentMovie.getTrailers().getYoutube().get(0).getSource();
-                String shareBody = "Check out this awesome trailer for "+ currentMovie.getTitle() + " "  + youtubeString;
+               String youtubeString = Constants.YOUTUBE_URL.getConstant() + currentMovie.getTrailers().getYoutube().get(0).getSource();
+                String shareBody = getResources().getString(R.string.check_out_text)+ currentMovie.getTitle() + " "  + youtubeString;
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, currentMovie.getTrailers().getYoutube().get(0).getName());
@@ -280,7 +280,7 @@ public class ItemDetailFragment extends Fragment {
                 ll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+currentMovie.getTrailers().getYoutube().get((int) v.getTag()).getSource())));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.YOUTUBE_URL.getConstant()+currentMovie.getTrailers().getYoutube().get((int) v.getTag()).getSource())));
                     }
                 });
 

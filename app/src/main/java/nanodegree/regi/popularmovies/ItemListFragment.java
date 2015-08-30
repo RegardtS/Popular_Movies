@@ -42,8 +42,7 @@ public class ItemListFragment extends Fragment {
     MovieAPI api;
     IImageLoader someRandomLoader;
 
-    Boolean isPopular = true;
-    Boolean hasData = false;
+    int sortingStyle = 0;
 
     RecyclerView mRecyclerView;
 
@@ -82,7 +81,7 @@ public class ItemListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if(movieList.size() > 0){
-            outState.putParcelableArrayList("key", movieList);
+            outState.putParcelableArrayList(Constants.MOVIE_KEYLIST.getConstant(), movieList);
         }
     }
 
@@ -90,9 +89,8 @@ public class ItemListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        if (savedInstanceState != null && savedInstanceState.containsKey("key")) {
-            movieList = savedInstanceState.getParcelableArrayList("key");
-            hasData = true;
+        if (savedInstanceState != null && savedInstanceState.containsKey(Constants.MOVIE_KEYLIST.getConstant())) {
+            movieList = savedInstanceState.getParcelableArrayList(Constants.MOVIE_KEYLIST.getConstant());
         }
 
     }
@@ -119,10 +117,10 @@ public class ItemListFragment extends Fragment {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        prefs = mContext.getSharedPreferences("test", Context.MODE_PRIVATE);
+        prefs = mContext.getSharedPreferences(getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
 
-        if(prefs.contains("sorting")){
-            isPopular = prefs.getBoolean("sorting",true);
+        if(prefs.contains(Constants.SORTING_PREF.getConstant())){
+            sortingStyle = prefs.getInt(Constants.SORTING_PREF.getConstant(),0);
         }
 
         if (movieList.isEmpty()) {
@@ -141,12 +139,14 @@ public class ItemListFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_popular) {
             Toast.makeText(mContext, R.string.toast_popular, Toast.LENGTH_LONG).show();
-            isPopular = true;
-            prefs.edit().putBoolean("sorting",true).apply();
+            sortingStyle = 0;
+            prefs.edit().putBoolean(Constants.SORTING_PREF.getConstant(),true).apply();
         } else if (id == R.id.action_rating) {
             Toast.makeText(mContext, R.string.toast_rating, Toast.LENGTH_LONG).show();
-            isPopular = false;
-            prefs.edit().putBoolean("sorting",false).apply();
+            sortingStyle = 1;
+            prefs.edit().putBoolean(Constants.SORTING_PREF.getConstant(),false).apply();
+        }else if(id == R.id.action_favourite){
+            Toast.makeText(mContext, "TODO", Toast.LENGTH_LONG).show();
         }
         requestData();
         return super.onContextItemSelected(item);
@@ -154,7 +154,7 @@ public class ItemListFragment extends Fragment {
 
     private void requestData() {
         String sorting = "";
-        if (isPopular) {
+        if (sortingStyle == 0) {
             sorting = Constants.POPULAR.getConstant();
 //            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_popular));
         } else {

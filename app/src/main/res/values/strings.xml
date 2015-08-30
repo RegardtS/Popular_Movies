@@ -43,8 +43,7 @@
     <string name="todo_edit_summary">Summary</string>
     <string name="todo_edit_description">Description</string>
     <string name="todo_edit_confirm">Confirm</string>
-
-
+    <string name="check_out_text">"Check out this awesome trailer for "</string>
 
 
 </resources>

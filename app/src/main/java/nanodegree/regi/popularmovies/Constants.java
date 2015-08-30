@@ -11,7 +11,10 @@ public enum Constants {
     BACKDROPSIZE("w780"),
     POPULAR("popularity.desc"),
     RATING("vote_average.desc"),
-    IMDBURL("http://www.imdb.com/title/");
+    IMDBURL("http://www.imdb.com/title/"),
+    MOVIE_KEYLIST("movie_key_list"),
+    SORTING_PREF("sorting_pref"),
+    YOUTUBE_URL("https://www.youtube.com/watch?v=");
 
 
     private String constant;

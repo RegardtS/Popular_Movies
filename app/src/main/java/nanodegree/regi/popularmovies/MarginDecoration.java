@@ -11,6 +11,9 @@ import android.view.View;
  * Created by RegardtS on 2015-08-04.
  */
 public class MarginDecoration extends RecyclerView.ItemDecoration {
+
+    final static String HAS_MARGIN = "TAGGED";
+
     private int margin;
 
     public MarginDecoration(Context context) {
@@ -20,11 +23,11 @@ public class MarginDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-        if(view.getTag() != null && view.getTag().toString().equals("tagged")){
+        if(view.getTag() != null && view.getTag().toString().equals(HAS_MARGIN)){
             return;
         }else{
             outRect.set(margin, margin, margin, margin);
-            view.setTag("tagged");
+            view.setTag(HAS_MARGIN);
         }
 
 
