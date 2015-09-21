@@ -140,15 +140,22 @@ public class ItemListFragment extends Fragment {
         if (id == R.id.action_popular) {
             Toast.makeText(mContext, R.string.toast_popular, Toast.LENGTH_LONG).show();
             sortingStyle = 0;
-            prefs.edit().putBoolean(Constants.SORTING_PREF.getConstant(),true).apply();
+            prefs.edit().putInt(Constants.SORTING_PREF.getConstant(), 0).apply();
+            requestData();
         } else if (id == R.id.action_rating) {
             Toast.makeText(mContext, R.string.toast_rating, Toast.LENGTH_LONG).show();
             sortingStyle = 1;
-            prefs.edit().putBoolean(Constants.SORTING_PREF.getConstant(),false).apply();
+            prefs.edit().putInt(Constants.SORTING_PREF.getConstant(),1).apply();
+            requestData();
         }else if(id == R.id.action_favourite){
-            Toast.makeText(mContext, "TODO", Toast.LENGTH_LONG).show();
+            SharedPreference x = new SharedPreference(getActivity().getApplicationContext());
+            movieList = x.getFavourites();
+            if(movieList == null){
+                movieList = new ArrayList<>();
+            }
+            mAdapter.notifyDataSetChanged();
         }
-        requestData();
+
         return super.onContextItemSelected(item);
     }
 

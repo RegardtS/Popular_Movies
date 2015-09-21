@@ -11,7 +11,7 @@ public class RestAdapter {
 
     private RestAdapter() {
         restAdapter = new retrofit.RestAdapter.Builder()
-                .setLogLevel(retrofit.RestAdapter.LogLevel.FULL)
+//                .setLogLevel(retrofit.RestAdapter.LogLevel.FULL)
                 .setEndpoint(ENDPOINT)
                 .build();
     }

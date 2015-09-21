@@ -1,14 +1,17 @@
 package nanodegree.regi.popularmovies;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -60,6 +63,12 @@ public class ItemDetailFragment extends Fragment {
 
     boolean isSinglePane = false;
     boolean showShare = false;
+
+    FloatingActionButton fab;
+
+    SharedPreference prefs;
+
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -101,6 +110,100 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        initViews();
+
+
+        Log.wtf("wtf", "onStart2");
+
+//        if(b.getBoolean("isSinglePane")){
+//            isSinglePane = true;
+//        }
+        Log.wtf("wtf", "onStart3");
+
+
+
+        Log.wtf("wtf", "onStart4");
+
+
+
+                (new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+
+
+                        Log.wtf("wtf", "sss");
+
+                        currentMovie = getArguments().getParcelable("movie");
+
+                        Log.wtf("wtf", "xxx");
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                                init();
+                            }
+                        });
+
+
+                    }
+                }).start();
+
+
+
+
+
+
+
+    }
+
+    private void init(){
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) getView().findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(currentMovie.getTitle());
+
+        String imgURL = Constants.URL.getConstant() + Constants.BACKDROPSIZE.getConstant();
+
+        if (currentMovie.getBackdrop_path() == null) {
+            imgURL += currentMovie.getPoster_path();
+        } else {
+            imgURL += currentMovie.getBackdrop_path();
+        }
+
+        ImageView img = (ImageView) getView().findViewById(R.id.img_poster);
+        Picasso.with(getActivity().getApplicationContext()).load(imgURL).into(img);
+
+
+
+
+        prefs = new SharedPreference(getActivity().getApplicationContext());
+
+
+        makeRequest();
+
+        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(prefs.isFavourite(currentMovie.getId())){
+                    prefs.deleteMovie(currentMovie.getId());
+                }else{
+                    prefs.addFavorite(currentMovie);
+                }
+                updateFab();
+            }
+        });
+        updateFab();
+    }
+
+
+    private void initViews(){
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading");
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+
 
         Tagline= (TextView) getView().findViewById(R.id.Tagline);
         Overview= (TextView) getView().findViewById(R.id.Overview);
@@ -120,45 +223,20 @@ public class ItemDetailFragment extends Fragment {
         LLBudget= (LinearLayout) getView().findViewById(R.id.LLBudget);
         LLRevenue= (LinearLayout) getView().findViewById(R.id.LLRevenue);
 
+
+        //disable on tablet
         toolbar = (Toolbar)  getView().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
-
-
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) getView().findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(currentMovie.getTitle());
-
-        String imgURL = Constants.URL.getConstant() + Constants.BACKDROPSIZE.getConstant();
-
-        if (currentMovie.getBackdrop_path() == null) {
-            imgURL += currentMovie.getPoster_path();
-        } else {
-            imgURL += currentMovie.getBackdrop_path();
-        }
-
-        ImageView img = (ImageView) getView().findViewById(R.id.img_poster);
-        Picasso.with(getActivity().getApplicationContext()).load(imgURL).into(img);
-
-        makeRequest();
-
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        currentMovie = getArguments().getParcelable(Constants.MOVIE.getConstant());
-
-        if(getArguments().getBoolean("isSinglePane")){
-            isSinglePane = true;
+    private void updateFab(){
+        if (prefs.isFavourite(currentMovie.getId())) {
+            fab.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_24dp));
+        }else{
+            fab.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_outline_24dp));
         }
-
-
-
     }
 
     private void makeRequest(){

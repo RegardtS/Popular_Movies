@@ -12,7 +12,12 @@
         android:theme="@style/MaterialTheme">
         <activity
             android:name=".ItemListActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ItemDetailActivity"
             android:label="@string/title_activity_detail"
@@ -21,27 +26,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />
         </activity>
-        <activity
-            android:name=".DatabaseStuff.TempTesting"
-            android:label="@string/title_activity_temp_testing"></activity>
-        <activity
-            android:name=".ContentProviderDatabaseStuff.TodosOverviewActivity"
-            android:label="@string/title_activity_content_provider_test">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ContentProviderDatabaseStuff.TodoDetailActivity"
-            android:label="i dunno anymore">
-        </activity>
-
-
-        <provider
-            android:name=".ContentProviderDatabaseStuff.MyTodoContentProvider"
-            android:authorities="nanodegree.regi.popularmovies"></provider>
 
     </application>
 

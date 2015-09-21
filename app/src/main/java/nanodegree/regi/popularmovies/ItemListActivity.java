@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Toast;
 
 import nanodegree.regi.popularmovies.Model.Movie;
@@ -58,17 +59,18 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
 
     @Override
     public void OnItemSelected(Movie selectedMovie) {
+        Bundle arguments = new Bundle();
+        Log.wtf("regi","test1");
+        arguments.putParcelable(Constants.MOVIE.getConstant(), selectedMovie);
+        Log.wtf("regi", "test2");
         if(mTwoPane){
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(Constants.MOVIE.getConstant(),selectedMovie);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
         }else{
             Intent mIntent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-            mIntent.putExtra(Constants.MOVIE.getConstant(),selectedMovie);
+//            mIntent.putExtra(Constants.MOVIE.getConstant(),selectedMovie);
+            mIntent.putExtras(arguments);
             startActivity(mIntent);
         }
     }
