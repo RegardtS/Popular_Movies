@@ -4,15 +4,14 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_main"
-    android:minHeight="278dp"
-    android:minWidth="185dp"
     android:background="@color/divider"
     >
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="278dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/img_poster_movie"
         android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         />
 
     <View

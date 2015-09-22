@@ -1,7 +1,6 @@
 package nanodegree.regi.popularmovies;
 
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,7 +9,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import nanodegree.regi.popularmovies.Model.Movie;
@@ -38,39 +40,38 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
 
         }
 
-       fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //getFragmentManager().putFragment(outState,"fragment",fragment);
         super.onSaveInstanceState(outState);
-
-        getSupportFragmentManager().putFragment(outState,fragment.getClass().getName(),fragment);
+        if (outState != null && !mTwoPane) {
+            getSupportFragmentManager().putFragment(outState, fragment.getClass().getName(), fragment);
+        }
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if(savedInstanceState !=null){
-            fragment = getSupportFragmentManager().getFragment(savedInstanceState,fragment.getClass().getName());
+        if (savedInstanceState != null && !mTwoPane) {
+            fragment = getSupportFragmentManager().getFragment(savedInstanceState, fragment.getClass().getName());
         }
     }
 
     @Override
     public void OnItemSelected(Movie selectedMovie) {
         Bundle arguments = new Bundle();
-        Log.wtf("regi","test1");
+
         arguments.putParcelable(Constants.MOVIE.getConstant(), selectedMovie);
-        Log.wtf("regi", "test2");
-        if(mTwoPane){
+        if (mTwoPane) {
+            arguments.putParcelable(Constants.MOVIE.getConstant(), selectedMovie);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
-        }else{
+        } else {
             Intent mIntent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-//            mIntent.putExtra(Constants.MOVIE.getConstant(),selectedMovie);
-            mIntent.putExtras(arguments);
+            mIntent.putExtra(Constants.MOVIE.getConstant(), selectedMovie);
             startActivity(mIntent);
         }
     }

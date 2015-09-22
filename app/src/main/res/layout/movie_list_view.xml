@@ -13,8 +13,7 @@
         android:padding="@dimen/item_margin"
         android:columnWidth="@dimen/column_width"
         android:clipToPadding="false"
-        android:stretchMode="columnWidth"
-
+        android:stretchMode="spacingWidthUniform"
         />
 
 </LinearLayout>

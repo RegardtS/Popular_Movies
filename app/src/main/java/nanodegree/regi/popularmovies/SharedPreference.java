@@ -19,8 +19,7 @@ import nanodegree.regi.popularmovies.Model.Movie;
  */
 public class SharedPreference {
 
-    public static final String PREFS_NAME = "Movie_APP";
-    public static final String FAVORITES = "Movie_Favorite";
+    public static final String PREFS_NAME = Constants.MOVIE.getConstant();
     Gson gson = new Gson();
     Context context;
 

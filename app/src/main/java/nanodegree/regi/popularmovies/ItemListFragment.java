@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +46,7 @@ public class ItemListFragment extends Fragment {
     int sortingStyle = 0;
 
     RecyclerView mRecyclerView;
+    MarginDecoration decorator;
 
     SharedPreferences prefs;
 
@@ -107,8 +109,8 @@ public class ItemListFragment extends Fragment {
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
+        decorator = new MarginDecoration(mContext);
 
-        MarginDecoration decorator = new MarginDecoration(mContext);
         mRecyclerView.addItemDecoration(decorator);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new MyAdapter();
@@ -163,10 +165,8 @@ public class ItemListFragment extends Fragment {
         String sorting = "";
         if (sortingStyle == 0) {
             sorting = Constants.POPULAR.getConstant();
-//            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_popular));
         } else {
             sorting = Constants.RATING.getConstant();
-//            toolbar.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.action_rating));
         }
 
         api.getMovies(sorting, new Callback<MovieResult>() {
