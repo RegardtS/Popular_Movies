@@ -22,6 +22,7 @@
     <string name="error_title">Something went wrong</string>
     <string name="generic_yes">Yes</string>
     <string name="generic_no">No</string>
+    <string name="check_out_text">"Check out this awesome trailer for "</string>
 
 
 </resources>
